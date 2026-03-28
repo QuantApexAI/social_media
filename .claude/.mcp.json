@@ -1,0 +1,38 @@
+{
+  "mcpServers": {
+    "github-remote": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    },
+    "brave-search": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      }
+    },
+    "tradingview-mcp": {
+      "type": "sse",
+      "url": "http://localhost:8080/sse",
+      "command": "docker",
+      "args": ["run", "--rm", "-p", "8080:8000", "atilaahmet/tradingview-mcp:latest"]
+    },
+    "tradingview-screener": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "tradingview-mcp-server"]
+    },
+    "crypto-rss": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["crypto-rss-mcp"]
+    }
+  }
+}
