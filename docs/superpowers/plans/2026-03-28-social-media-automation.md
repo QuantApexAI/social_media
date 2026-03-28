@@ -93,6 +93,10 @@ Each variable should have a comment above it explaining what it is and where to 
   "private": true,
   "type": "module",
   "description": "QuantApexAI social media automation — semi-automated posting to X and Telegram",
+  "scripts": {
+    "test": "node --import tsx --test lib/*.test.ts",
+    "smoke": "node --import tsx lib/smoke-test.ts"
+  },
   "dependencies": {
     "twitter-api-v2": "^1.18.2",
     "telegraf": "^4.16.3",
@@ -124,7 +128,7 @@ Each variable should have a comment above it explaining what it is and where to 
     "declaration": true
   },
   "include": ["lib/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist", "lib/*.test.ts"]
 }
 ```
 
@@ -369,11 +373,11 @@ Create `lib/post-manager.test.ts` with tests for:
 4. `publishPost(draftPath, publishedPlatforms)` — reads draft, updates status to "published", sets `published` timestamp, moves file to `content/published/YYYY-MM-DD/{timestamp}-{type}.md`, returns the parsed post object.
 5. `publishPost` with partial platforms — when only one platform succeeded, updates frontmatter `platforms` to reflect which actually published.
 
-Use `node:fs` and `node:path`. Use a temporary directory for test isolation (create temp content dirs in beforeEach, clean up in afterEach).
+Use `node:test` (`describe`, `it`, `beforeEach`, `afterEach`, `mock`) and `node:assert`. Use `node:fs` and `node:path`. Use a temporary directory for test isolation (create temp content dirs in beforeEach, clean up in afterEach).
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `pnpm exec tsx --test lib/post-manager.test.ts`
+Run: `node --import tsx --test lib/post-manager.test.ts`
 Expected: FAIL — `post-manager.ts` doesn't exist yet.
 
 - [ ] **Step 3: Implement lib/post-manager.ts**
@@ -406,7 +410,7 @@ Use simple string-based YAML frontmatter parsing (split on `---` delimiters, par
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `pnpm exec tsx --test lib/post-manager.test.ts`
+Run: `node --import tsx --test lib/post-manager.test.ts`
 Expected: All tests PASS.
 
 - [ ] **Step 5: Commit**
@@ -439,7 +443,7 @@ Use `node:test` with `mock` for stubbing the TwitterApi methods.
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `pnpm exec tsx --test lib/twitter-client.test.ts`
+Run: `node --import tsx --test lib/twitter-client.test.ts`
 Expected: FAIL — module doesn't exist.
 
 - [ ] **Step 3: Implement lib/twitter-client.ts**
@@ -449,8 +453,12 @@ import { TwitterApi } from 'twitter-api-v2';
 import 'dotenv/config';
 
 export function createTwitterClient(): TwitterApi {
-  // Read the four OAuth 1.0a env vars: X_CONSUMER, X_CONSUMER_PAIR, X_ACCESS, X_ACCESS_PAIR
-  // Pass to TwitterApi constructor as appKey, appPair, accessToken, accessPair
+  // Read the four OAuth 1.0a env vars and pass to TwitterApi constructor.
+  // Mapping: X_CONSUMER -> appKey, X_CONSUMER_PAIR -> app's private key,
+  //          X_ACCESS -> accessToken, X_ACCESS_PAIR -> access private key.
+  // See twitter-api-v2 docs for the exact constructor property names.
+  // NOTE: Spec defines functions without client param (module-level init).
+  // Plan passes client explicitly for better testability (dependency injection).
   return new TwitterApi({ /* credentials from env */ });
 }
 
@@ -486,7 +494,7 @@ Each function should throw descriptive errors on failure (include HTTP status, r
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `pnpm exec tsx --test lib/twitter-client.test.ts`
+Run: `node --import tsx --test lib/twitter-client.test.ts`
 Expected: All tests PASS.
 
 - [ ] **Step 5: Commit**
@@ -518,7 +526,7 @@ Mock Telegraf's `telegram` property methods.
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `pnpm exec tsx --test lib/telegram-client.test.ts`
+Run: `node --import tsx --test lib/telegram-client.test.ts`
 Expected: FAIL.
 
 - [ ] **Step 3: Implement lib/telegram-client.ts**
@@ -557,7 +565,7 @@ export async function sendDraft(
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `pnpm exec tsx --test lib/telegram-client.test.ts`
+Run: `node --import tsx --test lib/telegram-client.test.ts`
 Expected: All tests PASS.
 
 - [ ] **Step 5: Commit**
@@ -588,7 +596,7 @@ For Playwright tests: mock `playwright.chromium.launch()` to return a stub brows
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `pnpm exec tsx --test lib/chart-capture.test.ts`
+Run: `node --import tsx --test lib/chart-capture.test.ts`
 Expected: FAIL.
 
 - [ ] **Step 3: Implement lib/chart-capture.ts**
@@ -606,7 +614,8 @@ export function buildChartUrl(ticker: string, interval: string): string {
 
 export async function captureChart(
   ticker: string,
-  interval: string
+  interval: string,
+  indicators?: string[]  // e.g., ['RSI', 'MACD'] — reserved for Phase 2, ignored in Phase 1
 ): Promise<string | null> {
   // Try/catch entire flow, return null on any failure
   try {
@@ -635,7 +644,7 @@ Key implementation details:
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `pnpm exec tsx --test lib/chart-capture.test.ts`
+Run: `node --import tsx --test lib/chart-capture.test.ts`
 Expected: All tests PASS (unit tests with mocks).
 
 - [ ] **Step 5: Commit**
@@ -681,6 +690,8 @@ Add to the `mcpServers` object in `.claude/.mcp.json`:
 
 Preserve existing github-remote and brave-search entries.
 
+**Note:** The `tradingview-mcp` entry uses both `type: "sse"` with a `url` AND a `command` field. This is a Claude Code convention where Claude Code auto-starts the Docker container and connects via SSE. If this doesn't work, provide separate instructions to manually run `docker run --rm -p 8080:8000 atilaahmet/tradingview-mcp:latest` before using the MCP server.
+
 - [ ] **Step 3: Verify Docker is available for tradingview-mcp**
 
 Run: `docker --version`
@@ -715,7 +726,7 @@ Create `CLAUDE.md` with all nine sections from the spec outline:
 4. **Brand Voice** — Link to `brand/voice-guide.md`, inline the key rules (do/don't table)
 5. **File Structure** — Brief description of each top-level directory
 6. **MCP Servers** — List the three new servers with what tools they provide
-7. **Custom Libraries** — How to invoke: `pnpm exec tsx lib/{file}.ts`. List each library's exports.
+7. **Custom Libraries** — How to invoke: `node --import tsx lib/{file}.ts` or via `pnpm` scripts. Use `pnpm exec tsx` (NOT `npx tsx`) since this project uses pnpm. List each library's exports.
 8. **Credential Refresh** — How to update TV session cookies (open TV in browser, copy cookies from DevTools > Application > Cookies), what to do if X auth fails (regenerate tokens at developer.x.com)
 9. **Content Rules** — Link to `config/posting-rules.json`, platform limits (X: 280 chars, TG: 4096), hashtag conventions from `brand/hashtags.md`
 
@@ -737,20 +748,21 @@ This task verifies all libraries load correctly and the project is properly conf
 
 - [ ] **Step 1: Create lib/smoke-test.ts**
 
-A script that:
-1. Imports all four libraries
-2. Verifies env vars are present (checks `.env` has all required vars, reports which are missing)
-3. Tests post-manager by creating and reading a test draft (using a temp directory)
-4. Reports status for each component:
-   - Post Manager: OK/FAIL
-   - Twitter Client: CONFIGURED/MISSING_CREDENTIALS (checks if env vars exist, does NOT make API calls)
-   - Telegram Client: CONFIGURED/MISSING_CREDENTIALS
-   - Chart Capture: CONFIGURED/MISSING_CREDENTIALS
-   - MCP Servers: lists which are configured in .mcp.json
+A script that checks configuration without importing credential-dependent modules at top level. Important: `twitter-client.ts` and `telegram-client.ts` run `import 'dotenv/config'` at module level, and their `create*` functions use `process.env.VAR!` (non-null assertion) which would pass `undefined` to the SDK constructors if env vars are missing. The smoke test must:
+
+1. Check env vars FIRST by reading `.env.example` for required var names and checking `process.env` for each
+2. Test post-manager by importing it and creating/reading a test draft (post-manager has no credential dependencies)
+3. Only import twitter-client/telegram-client/chart-capture if their respective env vars are present
+4. Report status for each component:
+   - Post Manager: OK/FAIL (always tested)
+   - Twitter Client: CONFIGURED/MISSING_CREDENTIALS (checks env vars exist, does NOT call constructors unless configured)
+   - Telegram Client: CONFIGURED/MISSING_CREDENTIALS (same approach)
+   - Chart Capture: CONFIGURED/MISSING_CREDENTIALS (same approach)
+   - MCP Servers: reads `.claude/.mcp.json` and lists configured servers
 
 - [ ] **Step 2: Run smoke test**
 
-Run: `pnpm exec tsx lib/smoke-test.ts`
+Run: `pnpm smoke`
 Expected: Post Manager shows OK. Other components show MISSING_CREDENTIALS (since .env is not populated yet). No crashes.
 
 - [ ] **Step 3: Commit**
@@ -768,11 +780,11 @@ git commit -m "feat: add integration smoke test for all components"
 
 The spec removed the `x/` directory from the design. Delete it if empty.
 
-Run: `rmdir x/` (only if empty)
+Run: `rmdir x/ 2>/dev/null || true`
 
 - [ ] **Step 2: Run all tests**
 
-Run: `pnpm exec tsx --test lib/*.test.ts`
+Run: `pnpm test`
 Expected: All tests across all libraries PASS.
 
 - [ ] **Step 3: Verify directory structure matches spec**
