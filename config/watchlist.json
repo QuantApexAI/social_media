@@ -1,0 +1,6 @@
+{
+  "crypto": ["BTC", "ETH", "SOL", "XRP", "BNB", "ADA", "AVAX", "DOT", "LINK", "MATIC"],
+  "indices": ["SPX", "NDX"],
+  "forex": ["DXY"],
+  "custom": []
+}

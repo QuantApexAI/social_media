@@ -1,0 +1,18 @@
+{
+  "platforms": {
+    "x": {
+      "maxLength": 280,
+      "threadMaxTweets": 8,
+      "mediaTypes": ["png", "jpg"]
+    },
+    "telegram": {
+      "maxLength": 4096,
+      "mediaTypes": ["png", "jpg", "gif"]
+    }
+  },
+  "defaults": {
+    "postToBoth": true,
+    "includeHashtags": true,
+    "includeChart": true
+  }
+}
