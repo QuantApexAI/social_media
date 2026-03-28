@@ -62,8 +62,8 @@ social_media/
 │   ├── telegram-client.ts     # Telegram bot + channel posting
 │   ├── chart-capture.ts       # TradingView chart screenshots
 │   └── post-manager.ts        # Draft/publish lifecycle management
-├── x/                         # X-specific assets if needed
 ├── .env                       # Credentials (gitignored)
+├── .env.example               # Template with variable names (no values)
 ├── .gitignore
 ├── package.json
 ├── tsconfig.json
@@ -74,19 +74,44 @@ social_media/
 
 ## MCP Server Configuration
 
-Three read-only MCP servers added to `.claude/.mcp.json`:
+Three read-only MCP servers added to `.claude/.mcp.json`. Exact configuration blocks:
 
 ### tradingview-mcp (Docker, SSE)
 
 Multi-agent financial analysis. Tools: `multi_agent_analysis`, `coin_analysis`, `top_gainers`, `top_losers`, `bollinger_scan`, `rating_filter`. Runs in Docker for filesystem isolation.
 
+```json
+"tradingview-mcp": {
+  "type": "sse",
+  "url": "http://localhost:8080/sse",
+  "command": "docker",
+  "args": ["run", "--rm", "-p", "8080:8000", "atilaahmet/tradingview-mcp:latest"]
+}
+```
+
 ### tradingview-screener (npx, stdio)
 
 Market screener with 100+ fields across stocks, forex, crypto, ETFs. Tools: `screen_crypto`, `screen_stocks`, `lookup_symbols`. 14 pre-built strategies.
 
+```json
+"tradingview-screener": {
+  "type": "stdio",
+  "command": "npx",
+  "args": ["-y", "tradingview-mcp-server"]
+}
+```
+
 ### crypto-rss (uvx, stdio)
 
 100+ crypto RSS feeds. Tools: `get_crypto_rss_list`, `get_rss_feed`, `analyze_rss_feed`. Keyword filtering and AI trend analysis.
+
+```json
+"crypto-rss": {
+  "type": "stdio",
+  "command": "uvx",
+  "args": ["crypto-rss-mcp"]
+}
+```
 
 ## Custom TypeScript Libraries
 
@@ -103,24 +128,45 @@ Thin wrapper around `twitter-api-v2` using OAuth 1.0a.
 Uses `telegraf` with Bot API (not MTProto).
 
 - `postToChannel(channelId, text, imagePath?)` — publish to @QuantApexAI channel
-- `sendDraft(userId, draft)` — send draft to private chat for review
-- `listenForApproval(callback)` — long-poll for approval reply
+- `sendDraft(userId, draft)` — send draft to private chat for review (read-only preview, not interactive approval)
 
 ### lib/chart-capture.ts (~100 lines)
 
 Uses `playwright` to screenshot TradingView charts.
 
 - `captureChart(ticker, interval, indicators?)` — navigate to chart URL, wait for render, screenshot
-- Saves to `content/charts/` with timestamped filename
+- Saves to `content/charts/` with timestamped filename (e.g., `btc-4h-20260328-1430.png`)
 - Uses TV session cookies from `.env` (refreshed manually when expired)
+- On failure (expired session, timeout, crash): returns `null` instead of throwing. The calling workflow posts text-only and warns the user that chart capture failed.
 
 ### lib/post-manager.ts (~60 lines)
 
 Draft and publish lifecycle.
 
-- `saveDraft(post)` — write to `content/drafts/` as markdown with frontmatter
+- `saveDraft(post)` — write to `content/drafts/` as markdown with frontmatter (see Draft Format below)
 - `publishPost(draftPath)` — post to X + Telegram, move to `content/published/`
 - `listDrafts()` / `listPublished(date?)` — browse history
+
+### Draft Format
+
+Drafts are markdown files with YAML frontmatter:
+
+```yaml
+---
+title: "BTC 4H Analysis — Rising Wedge"
+type: recap | ta | news | ai
+platforms: [x, telegram]
+tickers: [BTC]
+status: draft | approved | published
+chartPath: content/charts/btc-4h-20260328-1430.png
+created: 2026-03-28T14:30:00Z
+published: null
+---
+
+Post body text here...
+```
+
+Filename convention: `content/drafts/{timestamp}-{type}.md` (e.g., `20260328-1430-ta.md`). On publish, moved to `content/published/YYYY-MM-DD/{timestamp}-{type}.md`.
 
 ## Workflow
 
@@ -128,12 +174,14 @@ Draft and publish lifecycle.
 
 1. User opens Claude Code in `social_media/`, says "draft today's posts"
 2. Claude fetches data via MCP servers (TradingView analysis, screener scans, RSS news, Brave search)
-3. Claude captures charts via `lib/chart-capture.ts` (Playwright + TV session)
+3. Claude captures charts via `lib/chart-capture.ts` (Playwright + TV session). If chart capture fails, continues with text-only drafts.
 4. Claude composes posts using `brand/voice-guide.md` and `brand/templates/`
-5. Drafts saved to `content/drafts/` AND sent to user's private Telegram via `lib/telegram-client.ts`
-6. User reviews on phone, replies "approve", "approve 1,3", or gives feedback
+5. Drafts saved to `content/drafts/` AND sent to user's private Telegram via `lib/telegram-client.ts` (read-only preview)
+6. User reviews drafts on phone (Telegram) or in terminal. Returns to Claude Code session to approve: "publish all", "publish 1,3", or gives feedback for revisions.
 7. Claude publishes approved posts to X + Telegram channel
-8. Published posts archived to `content/published/YYYY-MM-DD/`
+8. Published posts archived to `content/published/YYYY-MM-DD/{timestamp}-{type}.md`
+
+**Phase 1 constraint:** Approval happens within the Claude Code session, not via Telegram replies. Telegram is for mobile preview only. The user must return to the terminal to trigger publishing. Future Phase 2 (Approach B) will add a persistent Telegram webhook for true async approval.
 
 ### Quick Flows
 
@@ -243,16 +291,39 @@ Invalidation above $91,500.
 
 ### Credentials (.env, gitignored)
 
-The `.env` file stores all sensitive credentials. See `account_setup/` guides for how to obtain each value. Required credentials:
+The `.env` file stores all sensitive credentials. See `account_setup/` guides for how to obtain each value. An `.env.example` file (committed, no values) documents the canonical variable names:
 
-- **X/Twitter:** Four OAuth 1.0a values from the X Developer Portal (consumer pair + access pair)
-- **Telegram:** Bot token from BotFather, channel ID, and your personal user ID for approval DMs
-- **TradingView:** Two session cookie values from your browser (session ID + signature)
+- **X/Twitter (OAuth 1.0a):** `X_CONSUMER`, `X_CONSUMER_PAIR`, `X_ACCESS`, `X_ACCESS_PAIR`
+- **Telegram (Bot API):** `TG_BOT`, `TG_CHANNEL`, `TG_APPROVAL_USER`
+- **TradingView (session cookies):** `TV_SESSION`, `TV_SIGNATURE`
 
-## Dependencies
+All libraries must reference these exact names. The `.env.example` lists them with empty values and comments explaining where to get each one.
+
+### .gitignore
+
+```
+.env
+node_modules/
+dist/
+content/charts/
+*.log
+```
+
+This ensures credentials, dependencies, compiled output, and generated chart images are never committed.
+
+## Project Setup
+
+**Package manager:** pnpm (consistent with QuantApex ecosystem)
+
+**Runtime:** Libraries are executed directly via `npx tsx lib/<file>.ts` from Claude Code tool calls. No build step needed for Phase 1. Add `tsx` to devDependencies.
+
+### Dependencies (package.json)
 
 ```json
 {
+  "name": "quantapex-social-media",
+  "private": true,
+  "type": "module",
   "dependencies": {
     "twitter-api-v2": "^1.x",
     "telegraf": "^4.x",
@@ -261,10 +332,21 @@ The `.env` file stores all sensitive credentials. See `account_setup/` guides fo
   },
   "devDependencies": {
     "typescript": "^5.x",
+    "tsx": "^4.x",
     "@types/node": "^22.x"
   }
 }
 ```
+
+## Error Handling
+
+All custom library functions follow a consistent strategy:
+
+- **Chart capture (`chart-capture.ts`):** Returns `null` on failure (expired session, timeout, Playwright crash). The workflow proceeds with text-only posts and warns the user.
+- **Posting (`twitter-client.ts`, `telegram-client.ts`):** Throw on failure (rate limit, auth error, network). The calling workflow catches, reports the error to the user, and does NOT mark the post as published.
+- **Partial posting:** If X succeeds but Telegram fails (or vice versa), the post is marked with the platform(s) that succeeded. The user is notified and can retry the failed platform.
+- **Rate limits:** On 429 responses, the error message includes the retry-after time. Claude reports this to the user rather than auto-retrying.
+- **Thread splitting:** Claude is responsible for splitting long TA into tweet-sized chunks (each under 280 chars). `postThread` validates lengths and throws if any tweet exceeds the limit.
 
 ## Account Setup Required
 
@@ -272,6 +354,27 @@ Step-by-step guides will be created in `account_setup/`:
 
 1. **X Developer Account** — Apply at developer.x.com, create project + app, generate OAuth 1.0a credentials, configure for read+write
 2. **Telegram** — Create @QuantApexAI channel, create bot via BotFather, add bot as channel admin, get your user ID for approval DMs
+
+## CLAUDE.md Outline
+
+The project `CLAUDE.md` is the primary instruction file for Claude sessions operating in this repo. It must contain:
+
+### Sections
+
+1. **Project Overview** — What this repo does, the QuantApexAI brand, semi-automated workflow
+2. **Quick Commands** — Natural language commands Claude should recognize:
+   - "Draft today's posts" — full daily workflow
+   - "What's moving today?" — data scan, no drafts
+   - "Capture BTC 4H chart" — single chart screenshot
+   - "Publish draft 1,3" — publish specific approved drafts
+   - "Post about [topic]" — single reactive post
+3. **Workflow Steps** — Reference to the Daily Posting Flow in this spec
+4. **Brand Voice** — Link to `brand/voice-guide.md`, key rules inline
+5. **File Structure** — Where things live, what each directory is for
+6. **MCP Servers** — Which servers are available and what they do
+7. **Custom Libraries** — How to invoke `lib/*.ts` files via `npx tsx`
+8. **Credential Refresh** — How to update TV session cookies, what to do if X auth fails
+9. **Content Rules** — Link to `config/posting-rules.json`, platform limits, hashtag conventions
 
 ## Security Considerations
 
