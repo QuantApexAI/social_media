@@ -1,0 +1,23 @@
+{
+  "name": "quantapex-social-media",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "QuantApexAI social media automation — semi-automated posting to X and Telegram",
+  "scripts": {
+    "test": "node --import tsx --test lib/*.test.ts",
+    "smoke": "node --import tsx lib/smoke-test.ts"
+  },
+  "dependencies": {
+    "twitter-api-v2": "^1.18.2",
+    "telegraf": "^4.16.3",
+    "playwright": "^1.49.1",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "tsx": "^4.19.2",
+    "@types/node": "^22.10.2"
+  },
+  "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be"
+}

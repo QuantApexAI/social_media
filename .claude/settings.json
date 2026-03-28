@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch",
+      "WebSearch",
+      "Bash(*/Users/plamensavchev/Development/QuantApex/social_media/*)"
+    ]
+  },
+  "enabledPlugins": {
+    "ralph-loop@claude-plugins-official": true
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash(*twitter-client*)|Bash(*telegram-client*)",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "The following Bash command is about to execute: $TOOL_INPUT. If this command posts content to social media (publishing a tweet, sending to a channel — not just creating a client or uploading media), review the post text for: (1) directive financial language like 'buy', 'sell', 'you should', 'load up', (2) guaranteed outcome claims like 'will hit', 'guaranteed', '100%', (3) X/Twitter ToS violations like spam, duplicate content, or platform manipulation. If ANY violation is found, return 'deny' with an explanation of the violation. If the command does not post content or passes all checks, return 'approve'.",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
