@@ -91,7 +91,11 @@ git commit -m "feat: add X/Twitter platform compliance rules"
 **Files:**
 - Create: `brand/compliance/financial-disclaimer.md`
 
-- [ ] **Step 1: Write brand/compliance/financial-disclaimer.md**
+- [ ] **Step 1: Ensure directory exists and write file**
+
+Run: `mkdir -p brand/compliance`
+
+Then write `brand/compliance/financial-disclaimer.md`:
 
 Include version header:
 ```
@@ -128,7 +132,11 @@ git commit -m "feat: add multi-jurisdiction financial disclaimer rules"
 **Files:**
 - Create: `brand/compliance/compliance-checklist.md`
 
-- [ ] **Step 1: Write brand/compliance/compliance-checklist.md**
+- [ ] **Step 1: Ensure directory exists and write file**
+
+Run: `mkdir -p brand/compliance`
+
+Then write `brand/compliance/compliance-checklist.md`:
 
 Include version header:
 ```
@@ -247,7 +255,7 @@ git commit -m "feat: add compliance config to posting rules"
 
 - [ ] **Step 1: Update Section 3 (Workflow Steps)**
 
-Replace the current 7-step workflow (lines 23-29) with the 9-step version that inserts compliance validation and safety net:
+Replace the current 7-step workflow (lines 23-29) with the 8-step version that inserts compliance validation and safety net:
 
 ```markdown
 1. **Fetch data** — Query MCP servers: TradingView analysis + screener, crypto RSS feeds, Brave search for breaking news.
