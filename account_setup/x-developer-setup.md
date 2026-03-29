@@ -72,20 +72,26 @@ The permissions setting is NOT visible during app creation. You must configure i
 
 ---
 
-## Step 6: Generate Access Values
+## Step 6: Copy Credentials
 
-After setting permissions to Read and Write in Step 5:
+After completing Step 5 (User Authentication setup), navigate to your app's credentials page:
 
-1. Go to the **Keys and Tokens** tab in your app dashboard
-2. Your Consumer values from Step 4 are still valid — you do not need to regenerate them
-3. Under the **Authentication** section, find **Access values**
-4. Click **Generate**
-5. Copy both values immediately — they are only shown once:
-   - **Access value** → this is your `X_ACCESS` value
-   - **Access pair value** → this is your `X_ACCESS_PAIR` value
-6. Verify that the access credentials show **Read and Write** permissions
+1. Go to the **Apps** tab (e.g., `https://console.x.com/accounts/{your-account-id}/apps`)
+2. Click on your app name
+3. On the right side you'll see **"Manage API credentials for this application"** with three sections
 
-> **If access values show "Read" only:** Go back to Step 5 and verify User authentication settings are configured correctly, then regenerate the access values.
+**You need values from the OAuth 1.0 section only:**
+
+| Section | Credential | What to do |
+|---------|-----------|------------|
+| **App-Only Authentication** | Bearer value | Skip — not needed (read-only OAuth 2.0) |
+| **OAuth 1.0 Keys** | Consumer Key | Copy → `X_CONSUMER` in `.env` |
+| **OAuth 1.0 Keys** | Consumer pair value | Click **Regenerate** if not shown, copy → `X_CONSUMER_PAIR` in `.env` |
+| **OAuth 1.0 Keys** | Access value | Click **Generate** (or **Regenerate** if already created), copy → `X_ACCESS` in `.env` |
+| **OAuth 1.0 Keys** | Access pair value | Shown alongside Access value, copy → `X_ACCESS_PAIR` in `.env` |
+| **OAuth 2.0 Keys** | Client ID / Client pair | Skip — not needed for our OAuth 1.0a flow |
+
+> **Important:** If you generated Access values BEFORE completing Step 5 (User Authentication with Read and Write), you must **Regenerate** them now so they pick up the new permissions. Access values generated under Read-only permissions cannot post.
 
 ---
 
