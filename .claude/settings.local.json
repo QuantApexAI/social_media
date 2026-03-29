@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)",
+      "Agent(*)",
+      "Glob(*)",
+      "Grep(*)",
+      "WebSearch(*)",
+      "WebFetch(*)",
+      "mcp__context7__query-docs",
+      "mcp__brave-search__brave_web_search",
+      "Skill(update-config)",
+      "mcp__context7__resolve-library-id"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "mongodb",
+    "github-remote",
+    "cloud-run",
+    "brave-search"
+  ]
+}
