@@ -14,5 +14,9 @@
     "postToBoth": true,
     "includeHashtags": true,
     "includeChart": true
+  },
+  "compliance": {
+    "reportMode": "warnings-only",
+    "blockOnFail": true
   }
 }
