@@ -40,53 +40,56 @@ This guide walks you through setting up an X Developer account for the @QuantApe
 
 ## Step 4: Create an App Within the Project
 
-1. After creating the project, you will be prompted to create an App
-2. Enter an app name (e.g., `QuantApexAI Bot`)
-3. Click **Next** — your initial credentials will be displayed at this point (save them temporarily)
-4. The app will appear under your project in the dashboard
+1. Go to the **Apps** tab within your project and click **Create App**
+2. Enter the application name (e.g., `QuantApexAI Bot`)
+3. Select environment: **Production**
+4. Click **Create New Client Application**
+5. You will be shown initial credentials (Consumer values and Bearer value). **Save the Consumer values now** — they are only shown once:
+   - **Consumer Key** → this is your `X_CONSUMER` value
+   - **Consumer pair value** → this is your `X_CONSUMER_PAIR` value
+   - **Bearer value** → you do NOT need this (it's for OAuth 2.0 app-only, which is read-only)
+
+> **Note:** These initial credentials have **Read-only** permissions by default. You must complete Step 5 before they can be used for posting.
 
 ---
 
-## Step 5: Set App Permissions to "Read and Write"
+## Step 5: Set Up User Authentication (Read and Write Permissions)
 
-1. From the dashboard, open your App settings
-2. Navigate to **App permissions** (under the "Settings" tab)
-3. Change the permission level to **Read and Write**
-4. Click **Save** to apply the change
+The permissions setting is NOT visible during app creation. You must configure it separately through "User authentication settings":
 
-> **Important:** Permissions must be set to Read and Write **before** generating access credentials. If you generate them first, you must regenerate after changing permissions.
+1. From the Developer Portal dashboard, go to **Projects & Apps**
+2. Click on your project, then click on your app (or the gear icon)
+3. Find the **"User authentication settings"** section — it will say **"Set up"** next to it
+4. Click **"Set up"**
+5. Configure the following:
+   - **App permissions:** Select **"Read and Write"**
+   - **Type of App:** Select **"Automated App or Bot"**
+   - **Callback URL:** Enter `https://localhost` (placeholder — not used in our OAuth 1.0a flow)
+   - **Website URL:** Enter your website or `https://x.com/QuantApexAI`
+6. Click **Save**
 
----
-
-## Step 6: Navigate to "Keys and Tokens"
-
-1. In your App dashboard, click the **Keys and Tokens** tab
-2. This page contains all four values needed for the `.env` file
-
----
-
-## Step 7: Generate Consumer Values
-
-1. Under the **Consumer Keys** section, click **Regenerate** (or the initial values shown during app creation)
-2. Copy both values immediately — they are only shown once:
-   - **API Key** → this is your `X_CONSUMER` value
-   - **API Key Secret** → this is your `X_CONSUMER_PAIR` value
-3. Store them in a temporary secure location until you add them to `.env`
+> **Important:** This step MUST be completed before generating Access credentials in Step 6. If you skip this, your access values will be Read-only and posting will fail.
 
 ---
 
-## Step 8: Generate Access Values
+## Step 6: Generate Access Values
 
-1. Under the **Authentication Tokens** section, find **Access Token and Secret**
-2. Click **Generate**
-3. Copy both values immediately — they are only shown once:
-   - **Access Token** → this is your `X_ACCESS` value
-   - **Access Token Secret** → this is your `X_ACCESS_PAIR` value
-4. Confirm that the Access Token shows `Read and Write` — if it shows `Read`, regenerate after re-checking permissions in Step 5
+After setting permissions to Read and Write in Step 5:
+
+1. Go to the **Keys and Tokens** tab in your app dashboard
+2. Your Consumer values from Step 4 are still valid — you do not need to regenerate them
+3. Under the **Authentication** section, find **Access values**
+4. Click **Generate**
+5. Copy both values immediately — they are only shown once:
+   - **Access value** → this is your `X_ACCESS` value
+   - **Access pair value** → this is your `X_ACCESS_PAIR` value
+6. Verify that the access credentials show **Read and Write** permissions
+
+> **If access values show "Read" only:** Go back to Step 5 and verify User authentication settings are configured correctly, then regenerate the access values.
 
 ---
 
-## Step 9: Add Values to `.env`
+## Step 7: Add Values to `.env`
 
 Open the project `.env` file and add the four values using these exact variable names:
 
@@ -99,15 +102,15 @@ X_ACCESS_PAIR=<your access pair value here>
 
 ---
 
-## Step 10: Verification
+## Step 8: Verification
 
-Once the `.env` values are in place, run the smoke test script to verify the connection:
+Once the `.env` values are in place, run the smoke test to verify the configuration:
 
 ```bash
-node scripts/smoke-test-x.js
+pnpm smoke
 ```
 
-A successful run will print `X connection OK` and display the authenticated account handle.
+The smoke test will show `CONFIGURED` for the Twitter Client if all four env vars are present.
 
 ---
 
