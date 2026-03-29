@@ -78,32 +78,42 @@ After completing Step 5 (User Authentication setup), navigate to your app's cred
 
 1. Go to the **Apps** tab (e.g., `https://console.x.com/accounts/{your-account-id}/apps`)
 2. Click on your app name
-3. On the right side you'll see **"Manage API credentials for this application"** with three sections
+3. On the right side you'll see **"Manage API keys and authentication credentials for this application"** with three sections:
+   - **App-Only Authentication** — Bearer Token
+   - **OAuth 1.0 Keys** — Consumer Key, Access Token
+   - **OAuth 2.0 Keys** — Client ID, Client Secret
 
-**You need values from the OAuth 1.0 section only:**
+**You need values from the OAuth 1.0 Keys section only.** The other two sections can be ignored.
 
-| Section | Credential | What to do |
-|---------|-----------|------------|
-| **App-Only Authentication** | Bearer value | Skip — not needed (read-only OAuth 2.0) |
-| **OAuth 1.0 Keys** | Consumer Key | Copy → `X_CONSUMER` in `.env` |
-| **OAuth 1.0 Keys** | Consumer pair value | Click **Regenerate** if not shown, copy → `X_CONSUMER_PAIR` in `.env` |
-| **OAuth 1.0 Keys** | Access value | Click **Generate** (or **Regenerate** if already created), copy → `X_ACCESS` in `.env` |
-| **OAuth 1.0 Keys** | Access pair value | Shown alongside Access value, copy → `X_ACCESS_PAIR` in `.env` |
-| **OAuth 2.0 Keys** | Client ID / Client pair | Skip — not needed for our OAuth 1.0a flow |
+### Consumer Key
 
-> **Important:** If you generated Access values BEFORE completing Step 5 (User Authentication with Read and Write), you must **Regenerate** them now so they pick up the new permissions. Access values generated under Read-only permissions cannot post.
+1. In the **OAuth 1.0 Keys** section, click **Regenerate** next to **Consumer Key**
+2. You'll see two values:
+   - **Consumer Key** → copy this into `X_CONSUMER` in your `.env`
+   - **Consumer Secret** → copy this into `X_CONSUMER_PAIR` in your `.env`
+3. Save both immediately — they are only shown once
+
+### Access Token
+
+1. In the same **OAuth 1.0 Keys** section, click **Regenerate** next to **Access Token**
+2. You'll see two values:
+   - **Access Token** → copy this into `X_ACCESS` in your `.env`
+   - **Access Token Secret** → copy this into `X_ACCESS_PAIR` in your `.env`
+3. Save both immediately — they are only shown once
+
+> **Important:** If you generated the Access Token BEFORE completing Step 5 (setting permissions to Read and Write), you must **Regenerate** it now. Otherwise your credentials will be Read-only and posting will fail.
 
 ---
 
 ## Step 7: Add Values to `.env`
 
-Open the project `.env` file and add the four values using these exact variable names:
+Open the project `.env` file and add the four values:
 
 ```
-X_CONSUMER=<your consumer value here>
-X_CONSUMER_PAIR=<your consumer pair value here>
-X_ACCESS=<your access value here>
-X_ACCESS_PAIR=<your access pair value here>
+X_CONSUMER=<Consumer Key value>
+X_CONSUMER_PAIR=<Consumer Secret value>
+X_ACCESS=<Access Token value>
+X_ACCESS_PAIR=<Access Token Secret value>
 ```
 
 ---
