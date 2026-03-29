@@ -152,6 +152,12 @@ Structured checklist with pass/fail criteria, organized by category. Claude vali
 - If referencing specific protocols/tokens, no promotional exaggeration
 - No misleading comparisons to regulated/traditional investments
 - No FOMO language ("don't miss out", "once in a lifetime")
+- If post could be construed as promotional for a specific small-cap token, consider adding risk awareness note (WARNING level)
+
+**Category: Thread Compliance (X only)**
+- Each tweet in thread individually passes all above checks
+- No tweet in the thread uses directive language, even if earlier tweets used conditional framing
+- Thread as a whole does not construct a recommendation when read sequentially
 
 **Validation outcomes:**
 - **PASS** — all items clear
@@ -227,24 +233,24 @@ Add to existing config:
 ```
 
 - `reportMode`: `"warnings-only"` (default) or `"full"` — controls default verbosity
-- `blockOnFail`: if `true`, FAIL status prevents publishing. Should always be `true`.
+- `blockOnFail`: Always `true` — FAIL status prevents publishing. This is not configurable to prevent accidental bypass. The config field exists for documentation purposes; the workflow hardcodes blocking on FAIL.
 
 ## Safety Net Hook
 
 ### .claude/settings.json Update
 
-Add a `PreToolUse` prompt hook that fires before any Bash command matching the posting scripts:
+Add a `PreToolUse` prompt hook scoped to publishing commands only. This hook merges with any existing hooks in the project settings file (it does not affect global hooks in `~/.claude/settings.json`).
 
 ```json
 {
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash",
+        "matcher": "Bash(*twitter-client*)|Bash(*telegram-client*)",
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "The following Bash command is about to execute: $ARGUMENTS. If this command posts content to social media (contains 'twitter-client' or 'telegram-client' and is publishing, not just creating a client), review the post text for: (1) directive financial language like 'buy', 'sell', 'you should', 'load up', (2) guaranteed outcome claims like 'will hit', 'guaranteed', '100%', (3) X/Twitter ToS violations like spam, duplicate content, or platform manipulation. If ANY violation is found, respond with a JSON object containing 'decision': 'block' and 'reason' explaining the violation. If the command does not post content or passes all checks, respond with 'decision': 'allow'.",
+            "prompt": "The following Bash command is about to execute: $TOOL_INPUT. If this command posts content to social media (publishing a tweet, sending to a channel — not just creating a client or uploading media), review the post text for: (1) directive financial language like 'buy', 'sell', 'you should', 'load up', (2) guaranteed outcome claims like 'will hit', 'guaranteed', '100%', (3) X/Twitter ToS violations like spam, duplicate content, or platform manipulation. If ANY violation is found, return 'deny' with an explanation of the violation. If the command does not post content or passes all checks, return 'approve'.",
             "timeout": 30
           }
         ]
@@ -255,11 +261,54 @@ Add a `PreToolUse` prompt hook that fires before any Bash command matching the p
 ```
 
 This hook:
-- Only activates on Bash commands (which is how `tsx lib/twitter-client.ts` runs)
-- Uses a prompt-type hook (fast model evaluates the content)
+- Only activates on Bash commands containing `twitter-client` or `telegram-client` (narrow matcher avoids adding latency to unrelated commands)
+- Uses a `prompt`-type hook (fast model evaluates the content)
+- Uses `$TOOL_INPUT` template variable (Claude Code's supported variable for PreToolUse hooks)
+- Returns `deny`/`approve` (Claude Code's expected `permissionDecision` format for PreToolUse prompt hooks)
 - Checks for the three most critical violation categories
-- Blocks with a reason if a violation is found
-- Adds ~2-3 seconds to each publish action
+- Adds ~2-3 seconds only to publish actions, not all Bash commands
+
+## Thread Compliance
+
+When posting threads (multi-tweet via `postThread`):
+- Each individual tweet is validated against the full compliance checklist independently
+- The 280-character limit applies per-tweet
+- "No duplicate content" applies across tweets within the same thread (no repeated sentences)
+- The thread is also evaluated as a whole: a thread cannot collectively construct a message that would fail compliance if read as a single post (e.g., conditional framing in tweet 1, then directive "buy now" in tweet 5)
+- The compliance report for a thread shows per-tweet results and an overall thread assessment
+
+## Duplicate Content Detection
+
+The checklist item "No duplicate content" requires:
+1. Read the last 7 days of files from `content/published/`
+2. Compare the draft's body text against each published post
+3. Flag as WARNING if any published post shares >80% of the same sentences or has the same structure with only numbers changed (e.g., same TA template, same ticker, just updated price levels)
+4. Flag as FAIL if the draft is an exact or near-exact copy of a previously published post
+
+## Rapid-Fire Posting Check
+
+The "minimum 15 minutes between posts" rule is enforced by:
+1. Reading the most recent file from `content/published/` for today's date
+2. Parsing its `published` timestamp from the YAML frontmatter
+3. Comparing against the current time
+4. If less than 15 minutes have elapsed, flag as WARNING with the time remaining
+
+## FCA Crypto Risk Warning
+
+QuantApexAI posts are classified as **analysis/opinion**, not **financial promotions** under FCA definitions. This is because:
+- Posts analyze publicly available market data
+- No personalized recommendations are made
+- No compensation is received from token issuers
+- Posts are clearly framed as analytical observations
+
+However, when a post references a specific crypto asset in a context that could be construed as promotional (e.g., highlighting a breakout pattern on a small-cap token), the compliance check adds a WARNING suggesting inclusion of a risk awareness note. This is a precautionary measure, not a hard requirement.
+
+## AI-Generated Content Disclosure
+
+All posts are published under the @QuantApexAI brand, which inherently signals AI involvement. Additionally:
+- The brand bio/description on X and Telegram should include "AI-powered analysis" or similar disclosure
+- Individual posts do not require per-post AI disclosure unless X/Twitter's platform policy mandates it
+- The compliance checklist includes monitoring for changes in X's AI disclosure requirements
 
 ## What This Does NOT Cover
 
@@ -267,3 +316,16 @@ This hook:
 - Specific compliance with any single country's regulations beyond US/UK/EU
 - Real-time monitoring of published posts for compliance after the fact
 - Automated reporting or audit trail (future Phase 2 consideration)
+- Compliance of image/chart content (only post text is validated — misleading chart annotations are not caught)
+- Compliance of replies or DMs (only original posts are covered)
+- Instagram, LinkedIn, YouTube or other platforms (only X and Telegram)
+
+## Rule Versioning
+
+Each compliance document should include a header with:
+```
+Last updated: YYYY-MM-DD
+Version: 1.0
+```
+
+This creates an audit trail for when rules were in effect. When rules change, update the version and date. Published posts in `content/published/` are timestamped, so it's possible to determine which version of the rules was active when any given post was published.
