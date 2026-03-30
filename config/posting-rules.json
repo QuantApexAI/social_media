@@ -18,5 +18,16 @@
   "compliance": {
     "reportMode": "warnings-only",
     "blockOnFail": true
+  },
+  "postingCriteria": {
+    "requireNewsworthyTrigger": true,
+    "triggers": [
+      "Price move > 3% in 24h",
+      "Breaking news (regulatory, hack, partnership, upgrade)",
+      "Earnings report or major macro data release (Fed, CPI, GDP, employment)",
+      "Significant TA setup (breakout, breakdown, divergence)",
+      "Major AI development"
+    ],
+    "skipIfQuiet": true
   }
 }

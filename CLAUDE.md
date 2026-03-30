@@ -21,7 +21,7 @@ Semi-automated social media posting for **QuantApexAI**. Trust-tiered architectu
 
 ## 3. Workflow Steps
 
-1. **Fetch data** — Query MCP servers: TradingView analysis + screener, crypto RSS feeds, Brave search for breaking news.
+1. **Fetch data** — Query MCP servers: TradingView analysis + screener, crypto RSS feeds, Brave search for breaking news. Check for newsworthy triggers (see `config/posting-rules.json` > `postingCriteria`). If no triggers are found (no significant moves, no breaking news, no macro events), report to user and do NOT draft posts.
 2. **Capture charts** — Run `lib/chart-capture.ts`. Falls back to text-only post if capture fails.
 3. **Compose posts** — Apply `brand/voice-guide.md` rules, templates from `brand/templates/`, AND compliance rules from `brand/compliance/x-platform-rules.md` and `brand/compliance/financial-disclaimer.md`.
 4. **Compliance validation** — Run each draft against `brand/compliance/compliance-checklist.md`. Attach compliance report (default: warnings-only). FAIL blocks publishing.

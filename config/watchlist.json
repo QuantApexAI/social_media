@@ -1,5 +1,7 @@
 {
-  "crypto": ["BTC", "ETH", "SOL", "XRP", "BNB", "ADA", "AVAX", "DOT", "LINK", "MATIC"],
+  "crypto": ["BTC", "ETH", "SOL", "XRP"],
+  "stocks": ["AAPL", "TSLA", "GOOG", "COIN", "MSTR", "STRC"],
+  "commodities": ["GLD", "CL", "NG"],
   "indices": ["SPX", "NDX"],
   "forex": ["DXY"],
   "custom": []
