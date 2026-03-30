@@ -13,8 +13,10 @@ Use this template to generate the daily Market Pulse post. Fill every `[PLACEHOL
 **Order of assets:**
 1. BTC first, always
 2. ETH second, always
-3. Top 2–3 movers from the crypto watchlist (SOL, BNB, XRP, AVAX, etc.) — prioritize by % change
-4. Macro section: S&P 500, NASDAQ, DXY (always include all three)
+3. Top 2–3 movers from the crypto watchlist (SOL, XRP — see `config/watchlist.json`) — prioritize by % change
+4. Stocks section: notable movers from watchlist (AAPL, TSLA, GOOG, COIN, MSTR, STRC) — only include if newsworthy
+5. Commodities: GLD, oil (CL), natural gas (NG) — only include if significant move
+6. Macro section: S&P 500, NASDAQ, DXY (always include all three)
 
 **Key levels:** Use the nearest meaningful support and resistance based on recent structure, not arbitrary round numbers.
 

@@ -53,7 +53,7 @@ Full guide: `brand/voice-guide.md`
 ## 5. File Structure
 
 ```
-brand/          Voice guide, hashtag sets, post templates
+brand/          Voice guide, hashtag sets, post templates, compliance/ rules
 config/         Posting rules, watchlist, environment config
 content/        drafts/ and published/YYYY-MM-DD/ archives
 lib/            Custom TypeScript libraries (chart, posting, clients)
