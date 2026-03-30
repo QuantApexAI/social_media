@@ -104,17 +104,15 @@ TG_APPROVAL_USER=<your personal user id here>
 
 ## Step 9: Test the Connection
 
-Send a test message to yourself via the bot to confirm the credential value is working:
+Run the project smoke test to verify your Telegram credentials are configured:
 
 ```bash
-node scripts/smoke-test-telegram.js
+pnpm smoke
 ```
 
-The script will:
-1. Send a direct message to `TG_APPROVAL_USER` saying `Telegram connection OK`
-2. Optionally send a test message to `TG_CHANNEL` if `--channel` flag is passed
+The smoke test will show `CONFIGURED` for the Telegram Client if all three env vars (`TG_BOT`, `TG_CHANNEL`, `TG_APPROVAL_USER`) are present.
 
-A successful run prints `Telegram connection OK` to the console.
+> **Important:** Before the bot can send you draft previews, you must start a conversation with it first. Open your bot in Telegram (search for `@QuantApexAI_bot`) and send `/start`. This is a Telegram requirement — bots cannot message users who haven't initiated contact.
 
 ---
 
