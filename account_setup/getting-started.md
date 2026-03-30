@@ -10,11 +10,11 @@ Before your first post, verify everything is in place:
 
 - [ ] **X Developer account** configured — see [x-developer-setup.md](./x-developer-setup.md)
 - [ ] **Telegram channel + bot** configured — see [telegram-setup.md](./telegram-setup.md)
+- [ ] **TradingView chart capture** configured — see [tradingview-setup.md](./tradingview-setup.md)
 - [ ] **`.env` file** populated with all 9 credentials (copy from `.env.example`):
   - `X_CONSUMER`, `X_CONSUMER_PAIR`, `X_ACCESS`, `X_ACCESS_PAIR`
   - `TG_BOT`, `TG_CHANNEL`, `TG_APPROVAL_USER`
   - `TV_SESSION`, `TV_SIGNATURE`
-- [ ] **TradingView session cookies** added to `.env` — open TradingView in browser > DevTools > Application > Cookies > copy `sessionid` and `sessionid_sign`
 - [ ] **Dependencies installed** — run `pnpm install` if not already done
 - [ ] **Smoke test passing** — run `pnpm smoke` and verify all components show OK or CONFIGURED
 
