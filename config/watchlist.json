@@ -1,5 +1,5 @@
 {
-  "crypto": ["BTC", "ETH", "SOL", "XRP"],
+  "crypto": ["BTC", "ETH", "SOL"],
   "stocks": ["AAPL", "TSLA", "GOOG", "COIN", "MSTR", "STRC"],
   "commodities": ["GLD", "CL", "NG"],
   "indices": ["SPX", "NDX"],

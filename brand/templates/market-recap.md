@@ -2,72 +2,105 @@
 
 ## Instructions for Claude
 
-Use this template to generate the daily Market Pulse post. Fill every `[PLACEHOLDER]` with live data provided in the prompt context. Follow the formatting exactly — spacing, em dashes, and line breaks are intentional.
+Use this template to generate the daily Market Pulse post. Follow the structure exactly — the hook-first narrative, BTC solo line, and alt grouping rules are intentional.
 
-**"Brief commentary"** means one sentence about price action relative to a key moving average, pattern, or recent structure. Examples:
-- "Reclaimed 20D EMA, volume confirming" (bullish reclaim)
-- "Consolidating below $3,200 resistance" (neutral/range)
-- "Leading alts, breakout above descending wedge" (breakout)
-- "Rejected at 50D EMA, watching for retest of $X" (bearish rejection)
+**Structure:**
+1. 📊 Title with emoji
+2. Narrative hook (1-2 sentences framing why today matters — the story, not the data)
+3. ₿ BTC solo line (always its own line, never grouped)
+4. Alts — grouped if correlated, broken out if diverging (see `brand/voice-guide.md` > Alt Grouping Rules)
+5. Commodities — only if significant move (oil, gold, gas)
+6. Macro line — S&P 500, NASDAQ, DXY (always include all three)
+7. Key levels — ₿ prefix for BTC, plain text for others
+8. Footer hashtags — category tags only (ticker hashtags are inline on first mention)
+
+**Brief commentary** means vivid, active language — not textbook phrasing:
+- "Clinging to $67K support" (not "testing critical support zone")
+- "Rips to 10-month highs" (not "increased to the highest level")
+- "Back below $2K" (not "trading below the $2,000 level")
 
 **Order of assets:**
-1. BTC first, always
-2. ETH second, always
-3. Top 2–3 movers from the crypto watchlist (SOL, XRP — see `config/watchlist.json`) — prioritize by % change
-4. Stocks section: notable movers from watchlist (AAPL, TSLA, GOOG, COIN, MSTR, STRC) — only include if newsworthy
-5. Commodities: GLD, oil (CL), natural gas (NG) — only include if significant move
-6. Macro section: S&P 500, NASDAQ, DXY (always include all three)
+1. BTC first, always — its own line with ₿ prefix, hashtagged on first mention
+2. Alts grouped or broken out per voice guide rules. Hashtag each ticker on first mention only. Reference `config/watchlist.json` for the crypto watchlist (currently BTC, ETH, SOL).
+3. Commodities: oil (CL), gold (GLD), natural gas (NG) — only include if significant move
+4. Macro section: S&P 500, NASDAQ, DXY (always include all three)
 
-**Key levels:** Use the nearest meaningful support and resistance based on recent structure, not arbitrary round numbers.
+**Key levels:** Use the nearest meaningful support and resistance based on recent structure, not arbitrary round numbers. Prefix BTC levels with ₿.
 
 ---
 
 ## Template
 
 ```
-Market Pulse | [DATE e.g. Mar 28]
+📊 Market Pulse | [DATE e.g. Mar 30]
 
-BTC $[PRICE] ([+/-PCT]%) — [brief commentary]
-ETH $[PRICE] ([+/-PCT]%) — [brief commentary]
-[COIN3] $[PRICE] ([+/-PCT]%) — [brief commentary]
-[COIN4 if notable] $[PRICE] ([+/-PCT]%) — [brief commentary]
+[NARRATIVE HOOK — 1-2 sentences framing why today matters. Lead with the biggest story: macro event, sentiment shift, cross-asset dynamic. This is what stops the scroll.]
 
+₿ #BTC $[PRICE] ([+/-PCT]%) — [vivid commentary]
+[ALT SECTION — grouped if correlated, individual if diverging. Hashtag each ticker on first mention only. See voice guide.]
+
+[COMMODITIES if significant — e.g. Oil $102.88 (+3.25%)]
 S&P 500: [PRICE] ([+/-PCT]%) | NASDAQ: [PRICE] ([+/-PCT]%)
 DXY: [VALUE] ([+/-PCT]%)
 
-Key levels to watch:
-- BTC: Support $[SUPPORT] | Resistance $[RESISTANCE]
-- ETH: Support $[SUPPORT] | Resistance $[RESISTANCE]
-[- COIN3: Support $[SUPPORT] | Resistance $[RESISTANCE]]
+Key levels:
+₿ BTC: $[SUPPORT] / $[RESISTANCE]
+ETH: $[SUPPORT] / $[RESISTANCE]
 
-#Crypto #BTC #ETH #MarketUpdate #QuantApexAI
+#Crypto #MarketUpdate #QuantApexAI
 ```
 
 ---
 
-## Example Output
+## Example Output — Correlated Red Day (alts grouped)
 
 ```
-Market Pulse | Mar 28
+📊 Market Pulse | Mar 30
 
-BTC $89,420 (+2.1%) — Reclaimed 20D EMA, volume confirming
-ETH $3,180 (-0.4%) — Consolidating below $3,200 resistance
-SOL $142 (+5.3%) — Leading alts, breakout above descending wedge
+Extreme Fear grips crypto as oil crosses $100 for the first time since 2022. DXY rips to 10-month highs — risk assets under pressure across the board.
 
-S&P 500: 5,420 (+0.3%) | NASDAQ: 17,100 (+0.5%)
-DXY: 103.8 (-0.2%)
+₿ #BTC $67,500 (-4.2%) — Clinging to $67K support
+Alts bleeding in lockstep. #SOL leads losses at -5.8%, down 72% from peak. #ETH back below $2K.
 
-Key levels to watch:
-- BTC: Support $87,500 | Resistance $91,000
-- ETH: Support $3,050 | Resistance $3,250
+Oil $102.88 (+3.25%) | S&P 500: 6,344 (-0.39%)
+NASDAQ: 20,795 (-0.73%) | DXY: 100.54 (+0.4%)
 
-#Crypto #BTC #ETH #MarketUpdate #QuantApexAI
+Key levels:
+₿ BTC: $64,500 / $71,800
+ETH: $1,950 / $2,200
+
+#Crypto #MarketUpdate #QuantApexAI
+```
+
+## Example Output — Diverging Day (alts broken out)
+
+```
+📊 Market Pulse | Apr 3
+
+#BTC reclaims $72K as ETF inflows return, but altcoins tell a different story — #SOL surges on network upgrade while #ETH stalls at resistance.
+
+₿ BTC $72,100 (+3.8%) — Reclaimed 50D EMA, volume confirming
+SOL $98 (+8.2%) — Firedancer upgrade live, breakout above descending wedge
+ETH $2,180 (-0.6%) — Stuck below $2,200, volume fading
+
+S&P 500: 6,410 (+0.5%) | NASDAQ: 21,020 (+0.8%)
+DXY: 99.80 (-0.3%)
+
+Key levels:
+₿ BTC: $69,500 / $74,450
+SOL: $92 / $105
+ETH: $2,050 / $2,250
+
+#Crypto #MarketUpdate #QuantApexAI
 ```
 
 ---
 
 ## Platform Variants
 
-**X (Twitter):** Use the template as-is. If it exceeds 280 characters, start a thread — first tweet is BTC/ETH only, second tweet covers alts and macro, third tweet is key levels + hashtags.
+**X (Twitter):** If the post exceeds 280 characters, start a thread:
+- Tweet 1: 📊 title + narrative hook + ₿ #BTC line
+- Tweet 2: Alts + macro/commodities
+- Tweet 3: Key levels + hashtags
 
-**Telegram:** Post as a single message. You may expand the commentary to 2 sentences per asset if there is meaningful context to add.
+**Telegram:** Post as a single message. You may expand the hook to 2-3 sentences and add 1-2 extra sentences per asset for additional context.

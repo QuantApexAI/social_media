@@ -17,14 +17,67 @@ QuantApexAI communicates like a knowledgeable colleague who respects the audienc
 
 ---
 
+## Emoji Identity System
+
+Every post type has a fixed emoji placed first in the title. This is the leftmost visual anchor when scrolling — followers learn to recognize post categories at a glance.
+
+| Post Type | Emoji | Title Format |
+|---|---|---|
+| Market Recap | 📊 | `📊 Market Pulse \| {date}` |
+| Technical Analysis | 🔍 | `🔍 ₿ BTC {timeframe} Analysis` |
+| Macro / News | 🌍 | `🌍 {Event} — {Context}` |
+| AI / Tech News | 🤖 | `🤖 {Headline}` |
+
+**Ticker emoji:** Only BTC gets a symbol (₿). All other tickers use plain text.
+
+---
+
+## Inline Ticker Hashtags
+
+Hashtag tickers inline on their **first mention only** in the post body (e.g. `₿ #BTC`, `#ETH`, `#SOL`). Subsequent mentions of the same ticker use plain text. The footer hashtag block does NOT repeat ticker hashtags already used inline — it only contains category hashtags (`#Crypto`, `#MarketUpdate`, `#QuantApexAI`, etc.).
+
+This keeps total hashtag count low while improving discoverability on X.
+
+---
+
+## Hook-First Narrative Structure
+
+Every post opens with a 1-2 sentence narrative hook that frames *why today matters*, before any data. The hook is the most important line on X — it must give the reader a reason to stop scrolling.
+
+**Good hooks frame the story:** "Extreme Fear grips crypto as oil crosses $100 for the first time since 2022."
+**Bad hooks state the obvious:** "Market Pulse for March 30."
+
+## Alt Grouping Rules
+
+When crypto assets are moving in the same direction, do not list each one in identical format. Group and summarize.
+
+**Group alts when:**
+- All alts move in the same direction and no individual alt has a move >2x the group average
+- No individual alt has a unique story (breakout, protocol event, regulatory news)
+- Format: "Alts bleeding in lockstep. #SOL leads losses at -5.8%, down 72% from peak. #ETH back below $2K."
+
+**Break out an alt individually when:**
+- Moving opposite to the group
+- Significantly larger move (>2x the group average)
+- Ticker-specific catalyst
+
+**BTC always gets its own line** — it is the reference point and is never grouped with alts.
+
+**Telegram expansion:** When grouped, alts can get 1-2 extra sentences each on Telegram (room within 4096 chars). X stays tight.
+
+---
+
 ## Do / Don't Table
 
 | Do | Don't |
 |----|-------|
-| Lead with data and levels | Hype or shill ("to the moon!") |
+| Open with a narrative hook that frames why today matters | Open with a date label or raw data as the first element |
+| Lead with data and levels after the hook | Hype or shill ("to the moon!") |
 | Explain the "why" behind moves | Give financial advice ("you should buy") |
 | Acknowledge uncertainty ("watching for...") | Be overly bearish or bullish |
-| Use clean formatting (bullets, emojis sparingly) | Wall of text with no structure |
+| Use vivid, active verbs ("clinging to", "rips higher", "bleeds into") | Use passive/textbook language ("testing support zone") |
+| Use emoji system consistently — post type emoji in title, ₿ for BTC | Overuse emoji for decoration or hype |
+| Group correlated alts — summarize, don't repeat | List assets in identical format when they're all moving together |
 | Credit sources | Claim predictions as certainties |
 
 ---
@@ -65,6 +118,18 @@ Every post should convey **analysis**, not **advice**.
 - "Guaranteed move incoming"
 
 When in doubt, ask: *"Does this sound like analysis or a trade recommendation?"* If it sounds like a recommendation, reframe it as an observation.
+
+---
+
+## Vivid vs. Hype
+
+Active, descriptive language makes posts captivating without crossing into hype. The test: is it *describing what happened* or *telling you what to feel*?
+
+**Vivid (OK):** "clinging to $67K", "bleeds into support", "rips to 10-month highs", "slammed into resistance", "grinding lower"
+
+**Hype (NOT OK):** "to the moon", "unstoppable rally", "guaranteed breakout", "don't miss this", "easy money"
+
+Vivid language passes every compliance check because it is observational — it describes price action, not emotions or directives.
 
 ---
 

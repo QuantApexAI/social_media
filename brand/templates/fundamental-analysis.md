@@ -9,9 +9,9 @@ Post fundamental analysis when a newsworthy macro or company-specific event occu
 ## Template — Macro Event
 
 ```
-{EVENT_NAME} Breakdown
+🌍 {EVENT_NAME} — {Brief Context}
 
-{One-sentence summary of the event and its headline number/decision}
+{NARRATIVE HOOK — 1-2 sentences framing the event and its immediate market impact. Lead with the headline number/decision, then the "so what."}
 
 What it means for markets:
 - {Impact on equities — direction + reasoning}
@@ -38,9 +38,9 @@ Key levels to watch:
 ## Template — Earnings / Company Event
 
 ```
-{TICKER} — {Event Type (Earnings, Partnership, Acquisition, etc.)}
+🌍 {TICKER} — {Event Type (Earnings, Partnership, Acquisition, etc.)}
 
-{One-sentence summary: what happened and the key number}
+{NARRATIVE HOOK — what happened and why it matters, not just the number.}
 
 Key takeaways:
 - {Revenue/EPS vs. expectations}
@@ -67,9 +67,9 @@ What to watch:
 ## Template — Crypto Fundamental
 
 ```
-{TICKER} — {Event (Upgrade, Fork, Regulatory, Tokenomics Change)}
+🌍 {TICKER} — {Event (Upgrade, Fork, Regulatory, Tokenomics Change)}
 
-{One-sentence summary of the event}
+{NARRATIVE HOOK — what happened and why it matters for the network/ecosystem.}
 
 Why it matters:
 - {Technical impact — network performance, fees, throughput}
@@ -86,15 +86,34 @@ Key levels:
 
 ---
 
+## Template — AI / Tech News
+
+```
+🤖 {HEADLINE}
+
+{NARRATIVE HOOK — what happened and why it matters for crypto/markets.}
+
+Key takeaways:
+- {Primary impact — what changed}
+- {Market implications — which assets/sectors affected}
+- {Cross-asset context — if relevant}
+
+Watch for: {what would amplify or reverse this development}
+
+#AI #ArtificialIntelligence #Tech #QuantApexAI
+```
+
+---
+
 ## Template — Sector / Correlation Analysis
 
 ```
-Market Correlation Check | {date}
+🌍 Market Correlation Check | {date}
 
-{Observation about cross-asset behavior}
+{NARRATIVE HOOK — observation about cross-asset behavior that frames the analysis.}
 
 Current correlations:
-- BTC vs SPX: {correlated / decorrelating / inverse}
+- ₿ #BTC vs SPX: {correlated / decorrelating / inverse}
 - Gold vs DXY: {relationship}
 - Crypto vs Tech: {relationship}
 - Oil/Gas: {direction + driver}
@@ -112,9 +131,12 @@ Watch for: {what would change this picture}
 
 ## Guidance for Claude
 
-- **Always lead with the event/data, not the opinion**
+- **Always open with a narrative hook** — frame the event before listing impacts
 - **Include the actual numbers** — don't just say "beat expectations," say "EPS $1.42 vs. $1.35 expected"
-- **Cross-reference the watchlist** — if Fed cuts rates, mention impact on BTC, GLD, SPX, and relevant stocks
+- **Use vivid language** — "oil rips past $100" not "oil increased above $100"
+- **Hashtag tickers inline on first mention** — e.g. `₿ #BTC` in correlation check, `#{TICKER}` in earnings
+- **Cross-reference the watchlist** — if Fed cuts rates, mention impact on ₿ #BTC (first mention), GLD, SPX, and relevant stocks
 - **Commodities context** — GLD (gold), CL (crude oil), NG (natural gas) often move on macro data. Include when relevant.
 - **Never speculate beyond the data** — frame all forward-looking statements conditionally
 - **Only post when triggered** — see `config/posting-rules.json` > `postingCriteria`
+- **Use 🌍 for macro/news/earnings/crypto fundamentals/correlation posts, 🤖 for AI/tech news**

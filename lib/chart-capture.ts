@@ -119,6 +119,64 @@ export async function captureChart(
     // 4. Wait for chart canvas to render
     await page.waitForSelector('canvas', { timeout: 15000 });
 
+    // 4.5 Dismiss any promotional popups / modals / overlays
+    // First try clicking close buttons
+    const dismissSelectors = [
+      '[data-dialog-name] button[aria-label="Close"]',
+      '.tv-dialog__close',
+      'button.close-button',
+      '[class*="modalClose"]',
+      '[data-role="toast-close"]',
+      'button[aria-label="Close"]',
+      'button[aria-label="Dismiss"]',
+    ];
+    for (const sel of dismissSelectors) {
+      const btn = page.locator(sel).first();
+      if (await btn.count() > 0) {
+        await btn.click().catch(() => {});
+        await new Promise<void>((r) => setTimeout(r, 300));
+      }
+    }
+    // Press Escape multiple times as catch-all
+    for (let i = 0; i < 3; i++) {
+      await page.keyboard.press('Escape');
+      await new Promise<void>((r) => setTimeout(r, 300));
+    }
+    // Nuclear option: remove all overlays, modals, and popups from the DOM
+    await page.evaluate(() => {
+      const selectors = [
+        '[class*="modal"]', '[class*="Modal"]',
+        '[class*="popup"]', '[class*="Popup"]',
+        '[class*="overlay"]', '[class*="Overlay"]',
+        '[class*="dialog"]', '[class*="Dialog"]',
+        '[class*="toast"]', '[class*="Toast"]',
+        '[class*="banner"]', '[class*="Banner"]',
+        '[class*="promo"]', '[class*="Promo"]',
+        '[role="dialog"]',
+        '[data-dialog-name]',
+      ];
+      for (const sel of selectors) {
+        document.querySelectorAll(sel).forEach((el) => {
+          // Don't remove chart-related elements
+          if (!el.closest('.chart-container') && !el.closest('.chart-markup-table')) {
+            (el as HTMLElement).style.display = 'none';
+          }
+        });
+      }
+      // Also remove any fixed/absolute positioned elements covering the viewport
+      document.querySelectorAll('*').forEach((el) => {
+        const style = window.getComputedStyle(el);
+        if ((style.position === 'fixed' || style.position === 'absolute') &&
+            parseInt(style.zIndex || '0') > 100 &&
+            !el.closest('.chart-container') &&
+            !el.closest('.chart-markup-table') &&
+            !el.closest('#header-toolbar-symbol-search')) {
+          (el as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+    await new Promise<void>((r) => setTimeout(r, 500));
+
     // 5. Wait additional 3s for data to populate
     await new Promise<void>((resolve) => setTimeout(resolve, 3000));
 

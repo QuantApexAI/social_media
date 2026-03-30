@@ -1,11 +1,13 @@
 # QuantApexAI Hashtag Sets
 
 ## Market Recap
-#Crypto #BTC #ETH #MarketUpdate #QuantApexAI
+#Crypto #MarketUpdate #QuantApexAI
 
 ## Technical Analysis
 #TechnicalAnalysis #CryptoTrading #QuantApexAI
-Plus coin-specific: #BTC #ETH #SOL etc.
+
+## Macro / News
+#MacroAnalysis #Markets #QuantApexAI
 
 ## AI / Tech News
 #AI #ArtificialIntelligence #Tech #QuantApexAI
@@ -18,7 +20,7 @@ Plus coin-specific: #BTC #ETH #SOL etc.
 ## Usage Rules
 
 - **Always** end every post with `#QuantApexAI`
-- **X (Twitter):** Use 3–5 hashtags maximum. Prioritize the most relevant set.
-- **Telegram:** Full hashtag set is acceptable at the bottom of the message.
-- **Coin-specific tags:** Add the relevant coin tag(s) from the watchlist when covering a specific asset (e.g., `#SOL` for a Solana TA post).
-- Do not hashtag body text mid-post — place all hashtags at the end on their own line.
+- **Inline ticker hashtags:** Hashtag each ticker on its **first mention only** in the post body (e.g. `₿ #BTC`, `#ETH`, `#SOL`). Subsequent mentions use plain text.
+- **Footer hashtags:** Only category tags (`#Crypto`, `#MarketUpdate`, `#TechnicalAnalysis`, `#QuantApexAI`, etc.). Do NOT repeat ticker hashtags already used inline.
+- **X (Twitter):** Total hashtag count (inline + footer) should stay at 3–5 maximum.
+- **Telegram:** Full category hashtag set is acceptable at the bottom of the message.
