@@ -3,3 +3,4 @@ node_modules/
 dist/
 content/charts/
 *.log
+account_setup/creds.md
