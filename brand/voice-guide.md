@@ -47,6 +47,33 @@ Every post opens with a 1-2 sentence narrative hook that frames *why today matte
 **Good hooks frame the story:** "Extreme Fear grips crypto as oil crosses $100 for the first time since 2022."
 **Bad hooks state the obvious:** "Market Pulse for March 30."
 
+## Prioritization Take Principle
+
+Every post contains at least one sentence of editorial prioritization — telling the reader what to pay attention to and what to ignore. This is the account's analytical voice. It is woven naturally into the narrative with varied phrasing — never a repeated label like "What matters:" or "Signal vs. Noise:".
+
+**The principle:** Each post says "this matters more than that" in a way unique to the story.
+
+**Examples of varied phrasing:**
+- "Everyone's watching the fear index. The ETF flow reversal underneath is the real story."
+- "Traders keep whiplashing on rhetoric. The physical world tells a clearer story — watch the ships, not the speeches."
+- "You don't build the cheapest product in the market if you think demand is dying."
+- "Seven stories this week. Six are noise. Oracle gutting 30K jobs while net income is up 95% — that's the one reshaping the industry."
+
+**Compliance:** Prioritization takes are editorial judgment, not financial advice. They never include buy/sell directives, price predictions, certainty claims, or FOMO language. "This signal matters more than that headline" is journalism, not a trade recommendation.
+
+## Engagement Close Principle
+
+Every X thread ends with a debatable question that flows from the prioritization take. The question must be binary or pick-a-side — never vague ("thoughts?").
+
+**Good closing questions:**
+- "Institutions buying while retail capitulates — front-running the bottom or catching a knife?"
+- "Is the oil supply shock transitory or structural? That answer decides Q2."
+- "Four red weekly closes with expanding volume. Where does the burden of proof sit — bulls or bears?"
+
+**Bad closing questions:**
+- "What do you think?" (too vague, no position to react to)
+- "Will BTC go up?" (too simplistic, invites one-word answers)
+
 ## Alt Grouping Rules
 
 When crypto assets are moving in the same direction, do not list each one in identical format. Group and summarize.
@@ -87,8 +114,10 @@ When crypto assets are moving in the same direction, do not list each one in ide
 ### X (Twitter)
 - **Concise.** Be 280-character aware. Front-load the most important information.
 - **Lead with ticker and direction.** Example: `BTC reclaiming 20D EMA — watching for follow-through above $91K`
-- **Use threads for longer TA.** Thread structure: Hook tweet → chart observations → key levels → thesis → invalidation.
-- **Hashtags:** 3–5 max. Always include `#QuantApexAI`.
+- **Default thread: 5 tweets.** Structure: (1) narrative hook + visual, (2) BTC + headline data, (3) alts + macro, (4) prioritization take, (5) closing question + key levels.
+- **Tweet 1 target: 80-140 chars.** Short, punchy, no data — just the story. Attach the visual (dashboard card, chart, or data card).
+- **Tweet 5 must end with a debatable question** — not just key levels and hashtags.
+- **Exceptions:** TA posts may use 3-4 tweets. AI roundups may extend to 6-7 tweets.
 - **Emojis:** Use sparingly to add structure (e.g., bullet arrows), never for hype.
 
 ### Telegram
@@ -97,6 +126,21 @@ When crypto assets are moving in the same direction, do not list each one in ide
 - **Headers and bullets** are encouraged to improve readability.
 - **Hashtags:** Include full relevant set at the bottom of each post.
 - **Tone:** Slightly more conversational than X, but still data-driven.
+
+---
+
+## Visual Assets
+
+Every post includes a visual attachment. The visual type is determined by post type:
+
+| Post Type | Visual | How |
+|---|---|---|
+| Market Pulse | Branded dashboard card | Generated via `lib/data-card.ts` |
+| Technical Analysis | Annotated + watermarked TradingView chart | Via `lib/chart-capture.ts` |
+| Macro/News | Data card (comparison, key numbers, or signal dashboard) | Generated via `lib/data-card.ts` |
+| AI/Tech Roundup | Key numbers card | Generated via `lib/data-card.ts` |
+
+Visuals are saved to `content/charts/` and referenced in the draft's `chartPath` frontmatter.
 
 ---
 

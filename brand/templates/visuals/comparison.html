@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1600" />
+  <title>QuantApexAI — Comparison Card</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1600px;
+      height: 900px;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      overflow: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 900px;
+      padding: 48px 120px 40px;
+      gap: 32px;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .title {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      max-width: 900px;
+      line-height: 1.2;
+    }
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: #f8fafc;
+      white-space: nowrap;
+    }
+    .brand .ai {
+      color: #6366f1;
+    }
+    .divider {
+      height: 2px;
+      background: linear-gradient(to right, #6366f1, #1e293b);
+      border-radius: 1px;
+    }
+
+    /* ── Items List ── */
+    .items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    /* ── Comparison Item Card ── */
+    /* Items are injected via {{items_html}} using this structure:
+       <div class="item-card">
+         <div class="item-label">Label</div>
+         <div class="item-value">0.03%</div>
+         <div class="item-note">Optional note</div>
+       </div>
+    */
+    .item-card {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 32px;
+      background: #1e293b;
+      border-radius: 14px;
+      padding: 22px 36px;
+      border-left: 4px solid #6366f1;
+      transition: background 0.2s;
+    }
+    .item-card.highlight {
+      background: #1e3a5f;
+      border-left-color: #22c55e;
+    }
+    .item-label {
+      font-size: 20px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+    .item-value {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: #f8fafc;
+      text-align: right;
+      min-width: 180px;
+    }
+    .item-note {
+      font-size: 14px;
+      font-weight: 400;
+      color: #64748b;
+      text-align: right;
+      min-width: 220px;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .footer-text {
+      font-size: 13px;
+      font-weight: 400;
+      color: #334155;
+    }
+    .footer-text span {
+      color: #6366f1;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="title">{{title}}</div>
+      <div class="brand">Quant<span class="ai">Apex</span><span class="ai">AI</span></div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- Comparison Items -->
+    <div class="items-list">
+      {{items_html}}
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-text">Data for context only — not financial advice &nbsp;·&nbsp; <span>QuantApexAI</span></div>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -2,6 +2,8 @@
 
 ## Instructions for Claude
 
+**Visual:** Always generate an annotated + watermarked TradingView chart. The chart image is attached to Tweet 1.
+
 Use this template for chart-based TA posts. Follow the framing guidelines strictly — the goal is observations and probabilities, never predictions or advice. Use vivid, active language per the voice guide.
 
 ---
@@ -53,6 +55,7 @@ Include observations for any indicators that show a clear signal. Skip indicator
 - "If price holds above $X, next target is $Y"
 - "RSI divergence suggests momentum may be fading"
 - "Volume declining into resistance — worth monitoring"
+- "The chart says: [direct attribution of what the structure implies]"
 
 **Never use:**
 - "This will break down"
@@ -61,6 +64,8 @@ Include observations for any indicators that show a clear signal. Skip indicator
 - "Don't miss this setup"
 
 **Always include an invalidation condition.** This shows intellectual honesty and protects the brand. Format: `Invalidation below $X on [timeframe] close.`
+
+**Always close with a question** that invites the audience to engage. The question should be debatable — not rhetorical. Example: "Where does the burden of proof sit — bulls or bears?"
 
 ---
 
@@ -77,12 +82,15 @@ Key observations:
 - Volume: [vivid description] ([bullish/bearish/neutral])
 - [Indicator]: [observation]
 
+The chart says: [direct read of what the structure implies — burden of proof, who controls price, what the setup demands].
 Watching for [thesis — what would confirm the setup].
 Invalidation [condition] on [timeframe] close.
 
 [Chart Image]
 
-[Hashtags — category tags only, ticker already hashtagged in title]
+[Where does the burden of proof sit — or similar debatable question?]
+
+#Crypto
 ```
 
 ---
@@ -101,12 +109,15 @@ Key observations:
 - RSI (weekly): 38 — approaching oversold but no divergence yet
 - 50W EMA: $71,800, acting as overhead resistance
 
+The chart says: the burden of proof is on the bulls until $72,600 reclaims with conviction.
 Watching for a weekly close above $71,800 to signal trend reversal.
 Invalidation below $64,500 on weekly close.
 
 [Chart Image]
 
-#TechnicalAnalysis #CryptoTrading #QuantApexAI
+Where does the burden of proof sit — bulls or bears?
+
+#Crypto
 ```
 
 ## Example Output — Daily Analysis (midweek)
@@ -123,12 +134,15 @@ Key observations:
 - 200D EMA: Overhead resistance at $72,500
 - MACD: Bearish crossover, histogram expanding
 
+The chart says: sellers are in control until the channel breaks with volume.
 Watching for a bounce off $67K with volume confirmation.
 Invalidation below $64,500 on daily close.
 
 [Chart Image]
 
-#TechnicalAnalysis #CryptoTrading #QuantApexAI
+Does $67K hold, or is this channel heading lower?
+
+#Crypto
 ```
 
 ## Example Output — Monthly Analysis (end of month)
@@ -144,12 +158,15 @@ Key observations:
 - Volume: Highest monthly volume since Nov 2024
 - RSI (monthly): 42 — mid-range, no oversold signal yet
 
+The chart says: this is the most important monthly close since the 2022 bear market low — structure demands respect.
 Watching for March close above $67K to hold the higher-low structure.
 Invalidation below $61,500 on monthly close — would break the 2024 uptrend.
 
 [Chart Image]
 
-#TechnicalAnalysis #CryptoTrading #QuantApexAI
+Does this monthly close change your macro thesis?
+
+#Crypto
 ```
 
 ---
@@ -157,9 +174,9 @@ Invalidation below $61,500 on monthly close — would break the 2024 uptrend.
 ## Platform Variants
 
 **X (Twitter):** For detailed setups, use a thread:
-- Tweet 1: 🔍 title + narrative hook + key levels + chart image
-- Tweet 2: Indicators + thesis + invalidation
-- Tweet 3: Hashtags (if needed, can combine with tweet 2)
+- Tweet 1: 🔍 title + narrative hook + chart image
+- Tweet 2: Key observations + "The chart says:" thesis + invalidation
+- Tweet 3: Debatable question close + #Crypto
 
 **Telegram:** Full template in one message. You may add 1–2 sentences of additional context (e.g., macro backdrop, correlation with BTC dominance). Attach chart image inline.
 
@@ -167,8 +184,8 @@ Invalidation below $61,500 on monthly close — would break the 2024 uptrend.
 
 ## Hashtag Reference
 
-Ticker hashtags go inline on first mention in the title/body. The footer contains only category tags:
+Ticker hashtags go inline on first mention in the title/body. The footer contains only the category tag:
 
-- BTC analysis: title `🔍 ₿ #BTC ...`, footer `#TechnicalAnalysis #CryptoTrading #QuantApexAI`
-- ETH analysis: title `🔍 #ETH ...`, footer `#TechnicalAnalysis #CryptoTrading #QuantApexAI`
-- Altcoin analysis: title `🔍 #[COIN] ...`, footer `#TechnicalAnalysis #CryptoTrading #QuantApexAI`
+- BTC analysis: title `🔍 ₿ #BTC ...`, footer `#Crypto`
+- ETH analysis: title `🔍 #ETH ...`, footer `#Crypto`
+- Altcoin analysis: title `🔍 #[COIN] ...`, footer `#Crypto`

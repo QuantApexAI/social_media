@@ -22,8 +22,8 @@ Semi-automated social media posting for **QuantApexAI**. Trust-tiered architectu
 ## 3. Workflow Steps
 
 1. **Fetch data** — Query MCP servers: TradingView analysis + screener, crypto RSS feeds, Brave search for breaking news. Check for newsworthy triggers (see `config/posting-rules.json` > `postingCriteria`). If no triggers are found (no significant moves, no breaking news, no macro events), report to user and do NOT draft posts.
-2. **Capture charts** — Run `lib/chart-capture.ts`. Falls back to text-only post if capture fails.
-3. **Compose posts** — Apply `brand/voice-guide.md` rules, templates from `brand/templates/`, AND compliance rules from `brand/compliance/x-platform-rules.md` and `brand/compliance/financial-disclaimer.md`.
+2. **Generate visuals** — For Market Pulse: generate dashboard card via `lib/data-card.ts`. For TA: capture chart via `lib/chart-capture.ts`, then annotate with levels and watermark via `lib/chart-annotate.ts`. For Macro/News: generate data card (comparison, key-numbers, or signal-dashboard) via `lib/data-card.ts`. Falls back to text-only post if visual generation fails.
+3. **Compose posts** — Apply `brand/voice-guide.md` rules (including prioritization take principle and engagement close), templates from `brand/templates/` (5-tweet thread structure), AND compliance rules from `brand/compliance/x-platform-rules.md` and `brand/compliance/financial-disclaimer.md`. Use HTML formatting (`<b>`, `<i>`) for Telegram. Max 2 hashtags per tweet on X.
 4. **Compliance validation** — Run each draft against `brand/compliance/compliance-checklist.md`. Attach compliance report (default: warnings-only). FAIL blocks publishing.
 5. **Save drafts** — Write to `content/drafts/` and send to user's Telegram for mobile preview (includes compliance report if warnings/failures).
 6. **Review & approve** — User responds in this Claude Code session: "publish all", "publish 1,3", "show full compliance", or provides feedback for revision.
@@ -82,8 +82,10 @@ Invoke directly: `pnpm exec tsx lib/<file>.ts`
 |---|---|
 | `lib/post-manager.ts` | `saveDraft`, `listDrafts`, `listPublished`, `publishPost` |
 | `lib/twitter-client.ts` | `createTwitterClient`, `postTweet`, `uploadMedia`, `postThread` |
-| `lib/telegram-client.ts` | `createTelegramBot`, `postToChannel`, `sendDraft` |
+| `lib/telegram-client.ts` | `createTelegramBot`, `postToChannel`, `sendDraft`, `sendPoll` |
 | `lib/chart-capture.ts` | `buildChartUrl`, `captureChart` |
+| `lib/chart-annotate.ts` | `annotateChart` — adds watermark and key level overlays to chart screenshots |
+| `lib/data-card.ts` | `renderDashboardCard`, `renderDataCard` — generates branded PNG cards from HTML templates |
 
 ---
 
@@ -99,7 +101,8 @@ Invoke directly: `pnpm exec tsx lib/<file>.ts`
 
 Full rules: `config/posting-rules.json`
 
-- **X:** 280 characters per tweet; use threads for longer TA (max 8 tweets per thread).
-- **Telegram:** 4096 characters; single message with full chart attached.
-- Always include `#QuantApexAI` hashtag.
-- See `brand/hashtags.md` for full hashtag sets per content type.
+- **X:** 280 characters per tweet; default thread is 5 tweets (hook + data + alts/macro + prioritization take + question close). Max 8 tweets per thread. Max 2 hashtags per tweet.
+- **Telegram:** 4096 characters; single message with HTML formatting (`<b>`, `<i>`), chart/card attached, reaction prompt at bottom.
+- **Hashtags:** Max 2 per tweet on X. No `#QuantApexAI`. Use topic-specific tags for macro/news (`#Oil`, `#Iran`, `#Fed`). See `brand/hashtags.md`.
+- **Visuals:** Every post includes a visual (dashboard card, annotated chart, or data card). See `brand/voice-guide.md` > Visual Assets.
+- **Opinion framing:** Every post includes a prioritization take — editorial judgment on what matters vs. what to ignore, woven naturally into the narrative. Never a fixed label. See `brand/voice-guide.md` > Prioritization Take Principle.

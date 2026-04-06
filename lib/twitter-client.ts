@@ -83,7 +83,8 @@ export async function uploadMedia(
  */
 export async function postThread(
   client: TwitterApi,
-  tweets: string[]
+  tweets: string[],
+  firstTweetMediaId?: string,
 ): Promise<string[]> {
   if (tweets.length === 0) {
     throw new Error('postThread: no tweets provided — tweets array must not be empty');
@@ -102,6 +103,10 @@ export async function postThread(
 
   for (let i = 0; i < tweets.length; i++) {
     const payload: Record<string, unknown> = { text: tweets[i] };
+
+    if (i === 0 && firstTweetMediaId) {
+      payload['media'] = { media_ids: [firstTweetMediaId] };
+    }
 
     if (i > 0) {
       payload['reply'] = { in_reply_to_tweet_id: ids[i - 1] };

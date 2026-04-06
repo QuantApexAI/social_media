@@ -4,6 +4,8 @@
 
 Post fundamental analysis when a newsworthy macro or company-specific event occurs. This includes Fed decisions, CPI/GDP data, earnings reports, protocol upgrades, regulatory changes, or significant sector shifts.
 
+**Visual:** Generate a data card using the most relevant template (comparison, key-numbers, or signal-dashboard) via `lib/data-card.ts`.
+
 ---
 
 ## Template — Macro Event
@@ -24,7 +26,11 @@ Key levels to watch:
 
 {Conditional thesis: "If X holds above Y..." or "Watch for Z reaction..."}
 
-#MacroAnalysis #Markets #QuantApexAI
+The one thing that matters here: {editorial prioritization — what signal to focus on and what to filter out}.
+
+{Debatable question close — e.g. "Does the Fed have room to pivot, or is inflation still the constraint?"}
+
+#{TOPIC_TAG}
 ```
 
 ### Macro Events to Cover
@@ -53,7 +59,7 @@ What to watch:
 
 {Conditional framing — never directive}
 
-#{TICKER} #Earnings #QuantApexAI
+#{TICKER} #Earnings
 ```
 
 ### Stocks Watchlist Context
@@ -81,7 +87,7 @@ Key levels:
 
 {Conditional thesis}
 
-#{TICKER} #CryptoFundamentals #QuantApexAI
+#{TICKER} #CryptoFundamentals
 ```
 
 ---
@@ -100,7 +106,7 @@ Key takeaways:
 
 Watch for: {what would amplify or reverse this development}
 
-#AI #ArtificialIntelligence #Tech #QuantApexAI
+#AI #Tech
 ```
 
 ---
@@ -124,7 +130,7 @@ What this suggests:
 
 Watch for: {what would change this picture}
 
-#MarketAnalysis #Correlation #QuantApexAI
+#MarketAnalysis #Correlation
 ```
 
 ---
@@ -140,3 +146,4 @@ Watch for: {what would change this picture}
 - **Never speculate beyond the data** — frame all forward-looking statements conditionally
 - **Only post when triggered** — see `config/posting-rules.json` > `postingCriteria`
 - **Use 🌍 for macro/news/earnings/crypto fundamentals/correlation posts, 🤖 for AI/tech news**
+- **Footer hashtags** — Use a single topic-specific hashtag — e.g. `#Oil`, `#Iran`, `#Fed`, `#ETF`. Always include `#QuantApexAI` as the second tag.

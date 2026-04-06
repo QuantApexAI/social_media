@@ -1,26 +1,38 @@
-# QuantApexAI Hashtag Sets
+# QuantApexAI Hashtag Strategy
 
-## Market Recap
-#Crypto #MarketUpdate #QuantApexAI
+## X (Twitter) — Max 2 Hashtags Per Tweet
 
-## Technical Analysis
-#TechnicalAnalysis #CryptoTrading #QuantApexAI
+### Rules
+- **Maximum 2 hashtags per tweet** — research shows 3+ triggers ~40% reach penalty
+- Inline ticker hashtags on **first mention only** (e.g. `₿ #BTC`, `#ETH`, `#SOL`)
+- Subsequent mentions of the same ticker use plain text
+- Footer gets **at most 1** category/topic hashtag — only if the tweet has fewer than 2 hashtags already
+- No `#QuantApexAI` — zero search volume
 
-## Macro / News
-#MacroAnalysis #Markets #QuantApexAI
+### By Post Type
 
-## AI / Tech News
-#AI #ArtificialIntelligence #Tech #QuantApexAI
+| Post Type | Inline | Footer | Example |
+|---|---|---|---|
+| Market Pulse | `₿ #BTC` (always) | `#Crypto` (only if under 2 total) | Tweet has `₿ #BTC` inline → footer adds `#Crypto` = 2 total |
+| Technical Analysis | `₿ #BTC` or relevant ticker | `#Crypto` | 2 total |
+| Macro/News | `₿ #BTC` if mentioned | **Topic-specific** tag | Iran → `#Iran`, Oil → `#Oil`, Fed → `#Fed`, ETF → `#ETF` |
+| AI/Tech | `#AI` inline | `#Tech` | 2 total |
 
-## General (always include)
-#QuantApexAI
+### Topic-Specific Tags for Macro/News
+Choose the single most-searched tag for the story's primary subject:
+- Geopolitical: `#Iran`, `#China`, `#Tariffs`, `#War`
+- Commodity: `#Oil`, `#Gold`, `#CrudeOil`
+- Central bank: `#Fed`, `#ECB`, `#RateDecision`
+- Regulatory: `#ETF`, `#SEC`, `#Regulation`
+- Economic data: `#CPI`, `#GDP`, `#Jobs`
 
 ---
 
-## Usage Rules
+## Telegram — Keep Category Tags
 
-- **Always** end every post with `#QuantApexAI`
-- **Inline ticker hashtags:** Hashtag each ticker on its **first mention only** in the post body (e.g. `₿ #BTC`, `#ETH`, `#SOL`). Subsequent mentions use plain text.
-- **Footer hashtags:** Only category tags (`#Crypto`, `#MarketUpdate`, `#TechnicalAnalysis`, `#QuantApexAI`, etc.). Do NOT repeat ticker hashtags already used inline.
-- **X (Twitter):** Total hashtag count (inline + footer) should stay at 3–5 maximum.
-- **Telegram:** Full category hashtag set is acceptable at the bottom of the message.
+Telegram uses hashtags as in-channel search/filter tags, not algorithm signals. Keep the full category set for subscriber navigation:
+
+- Market Recap: `#Crypto #MarketUpdate`
+- Technical Analysis: `#TechnicalAnalysis #CryptoTrading`
+- Macro/News: `#MacroAnalysis #Markets`
+- AI/Tech: `#AI #ArtificialIntelligence #Tech`

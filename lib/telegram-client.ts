@@ -63,3 +63,18 @@ export async function sendDraft(
 
   await bot.telegram.sendMessage(userId, message);
 }
+
+/**
+ * Sends a poll to a Telegram channel.
+ * Used for weekly engagement polls (e.g., "BTC by Friday?").
+ */
+export async function sendPoll(
+  bot: Telegraf,
+  channelId: string,
+  question: string,
+  options: string[],
+): Promise<void> {
+  await bot.telegram.sendPoll(channelId, question, options, {
+    is_anonymous: true,
+  });
+}

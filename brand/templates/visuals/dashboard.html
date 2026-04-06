@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1600" />
+  <title>QuantApexAI — Market Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1600px;
+      height: 900px;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      overflow: hidden;
+    }
+
+    /* ── Layout ── */
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 900px;
+      padding: 36px 48px 32px;
+      gap: 24px;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #f8fafc;
+    }
+    .brand .ai {
+      color: #6366f1;
+    }
+    .header-date {
+      font-size: 16px;
+      font-weight: 400;
+      color: #94a3b8;
+    }
+    .divider {
+      height: 1px;
+      background: #1e293b;
+    }
+
+    /* ── BTC Hero Row ── */
+    .btc-row {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      background: #1e293b;
+      border-radius: 16px;
+      padding: 28px 40px;
+    }
+    .btc-label {
+      font-size: 20px;
+      font-weight: 700;
+      color: #f59e0b;
+      letter-spacing: 1px;
+      min-width: 80px;
+    }
+    .btc-price {
+      font-size: 56px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      line-height: 1;
+    }
+    .btc-change {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+    .up   { color: #22c55e; }
+    .down { color: #ef4444; }
+
+    /* ── Middle Grid ── */
+    .mid-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      flex: 1;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 16px;
+      padding: 24px 32px;
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #64748b;
+      margin-bottom: 20px;
+    }
+
+    /* Alts Card */
+    .alts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Fear & Greed Card */
+    .fg-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 24px 32px;
+    }
+    .fg-gauge-wrap {
+      position: relative;
+      width: 200px;
+      height: 110px;
+      overflow: hidden;
+    }
+    .fg-arc-bg {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 22px solid #0f172a;
+      position: absolute;
+      top: 0;
+      clip-path: inset(0 0 50% 0);
+    }
+    .fg-value-display {
+      font-size: 64px;
+      font-weight: 700;
+      letter-spacing: -3px;
+      color: #f8fafc;
+    }
+    .fg-label-display {
+      font-size: 18px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ── Macro Grid ── */
+    .macro-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .macro-card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 18px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .macro-ticker {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #64748b;
+    }
+    .macro-price {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .macro-change {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    /* ── Key Levels Row ── */
+    .levels-row {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .levels-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #6366f1;
+      min-width: 100px;
+    }
+    .levels-items {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Footer Brand Strip ── */
+    .footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding-top: 4px;
+    }
+    .footer-brand {
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+      letter-spacing: 0.5px;
+    }
+    .footer-brand span {
+      color: #6366f1;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">Quant<span class="ai">Apex</span><span class="ai">AI</span></div>
+      <div class="header-date">{{date}}</div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- BTC Hero Row -->
+    <div class="btc-row">
+      <div class="btc-label">BTC</div>
+      <div class="btc-price">{{btc_price}}</div>
+      <div class="btc-change {{btc_direction}}">{{btc_change}}</div>
+    </div>
+
+    <!-- Middle Grid: Alts + Fear & Greed -->
+    <div class="mid-grid">
+      <!-- Alts Card -->
+      <div class="card">
+        <div class="card-title">Altcoins</div>
+        <div class="alts-list">
+          {{alts_html}}
+        </div>
+      </div>
+
+      <!-- Fear & Greed Card -->
+      <div class="card fg-card">
+        <div class="card-title" style="align-self:flex-start">Fear &amp; Greed Index</div>
+        <div class="fg-value-display">{{fg_value}}</div>
+        <div class="fg-label-display">{{fg_label}}</div>
+      </div>
+    </div>
+
+    <!-- Macro Grid -->
+    <div class="macro-grid">
+      {{macro_html}}
+    </div>
+
+    <!-- Key Levels -->
+    <div class="levels-row">
+      <div class="levels-label">Key Levels</div>
+      <div class="levels-items">{{levels_html}}</div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-brand">Quant<span>Apex</span><span>AI</span> · Data for context only — not financial advice</div>
+    </div>
+
+  </div>
+</body>
+</html>

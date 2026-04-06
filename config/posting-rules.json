@@ -3,17 +3,25 @@
     "x": {
       "maxLength": 280,
       "threadMaxTweets": 8,
+      "maxHashtagsPerTweet": 2,
       "mediaTypes": ["png", "jpg"]
     },
     "telegram": {
       "maxLength": 4096,
+      "parseMode": "HTML",
       "mediaTypes": ["png", "jpg", "gif"]
     }
   },
   "defaults": {
     "postToBoth": true,
     "includeHashtags": true,
-    "includeChart": true
+    "includeVisual": true
+  },
+  "visualTypeMap": {
+    "market-recap": "dashboard",
+    "ta": "annotated-chart",
+    "macro-news": "data-card",
+    "ai-tech-news": "key-numbers"
   },
   "compliance": {
     "reportMode": "warnings-only",

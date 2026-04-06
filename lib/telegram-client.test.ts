@@ -166,3 +166,30 @@ describe('sendDraft (with chartPath)', () => {
     assert.ok(calledText.includes(chartPath), 'should include the chart path');
   });
 });
+
+// ---------------------------------------------------------------------------
+// sendPoll
+// ---------------------------------------------------------------------------
+
+describe('sendPoll', () => {
+  it('calls bot.telegram.sendPoll with channelId, question, and options', async () => {
+    const sendPollMock = mock.fn(async () => ({}));
+    const bot = {
+      telegram: {
+        sendMessage: mock.fn(),
+        sendPhoto: mock.fn(),
+        sendPoll: sendPollMock,
+      },
+    } as any;
+
+    const { sendPoll } = await import('./telegram-client.ts');
+    await sendPoll(bot, '@quantapexai', 'BTC by Friday?', ['Above $69K', '$65K-$69K', 'Below $65K']);
+
+    assert.equal(sendPollMock.mock.calls.length, 1);
+    const [chatId, question, options, extra] = sendPollMock.mock.calls[0].arguments;
+    assert.equal(chatId, '@quantapexai');
+    assert.equal(question, 'BTC by Friday?');
+    assert.deepEqual(options, ['Above $69K', '$65K-$69K', 'Below $65K']);
+    assert.equal(extra?.is_anonymous, true);
+  });
+});

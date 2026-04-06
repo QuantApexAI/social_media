@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1600" />
+  <title>QuantApexAI — Key Numbers</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1600px;
+      height: 900px;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      overflow: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 900px;
+      padding: 48px 80px 40px;
+      gap: 36px;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .title {
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.8px;
+      max-width: 1000px;
+      line-height: 1.2;
+    }
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: #f8fafc;
+      white-space: nowrap;
+    }
+    .brand .ai {
+      color: #6366f1;
+    }
+    .divider {
+      height: 2px;
+      background: linear-gradient(to right, #6366f1, #1e293b);
+      border-radius: 1px;
+    }
+
+    /* ── Numbers Grid ── */
+    /* Renders 3–5 cards; auto-fills columns, min 280px each */
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    /* ── Number Card ── */
+    /* Items injected via {{items_html}} using this structure:
+       <div class="number-card">
+         <div class="number-label">Label</div>
+         <div class="number-value">$4.2T</div>
+         <div class="number-subtitle">Supporting note or context</div>
+       </div>
+    */
+    .number-card {
+      background: #1e293b;
+      border-radius: 16px;
+      padding: 32px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 5px solid #6366f1;
+      gap: 12px;
+    }
+    .number-label {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #64748b;
+    }
+    .number-value {
+      font-size: 56px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      line-height: 1;
+      color: #f8fafc;
+    }
+    .number-subtitle {
+      font-size: 15px;
+      font-weight: 400;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .footer-text {
+      font-size: 13px;
+      font-weight: 400;
+      color: #334155;
+    }
+    .footer-text span {
+      color: #6366f1;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="title">{{title}}</div>
+      <div class="brand">Quant<span class="ai">Apex</span><span class="ai">AI</span></div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- Numbers Grid -->
+    <div class="numbers-grid">
+      {{items_html}}
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-text">Data for context only — not financial advice &nbsp;·&nbsp; <span>QuantApexAI</span></div>
+    </div>
+
+  </div>
+</body>
+</html>
